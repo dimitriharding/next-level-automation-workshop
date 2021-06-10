@@ -11,5 +11,8 @@
     "@slidev/theme-default": "*",
     "@slidev/theme-seriph": "*"
   },
-  "name": "advance-test-automation"
+  "name": "advance-test-automation",
+  "devDependencies": {
+    "playwright-chromium": "^1.12.1"
+  }
 }
