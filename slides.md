@@ -73,7 +73,7 @@ We'll be talking about structuring your test automation project, and we'll look 
 
 - 📤 **What are test frameworks made of?**
 - 🛠 **Creating a structured test automation framework/project**
-- 🧑‍💻 **Commands - Tricks & Tips**
+- 🧑‍💻 **Tips & Tricks**
 - 🤹 **Incorporating different types of testing**
 
 <br>
@@ -88,7 +88,6 @@ name: What are test frameworks made of?
 # <CustomHeader> What are test frameworks made of? </CustomHeader>
 
 Hooks | Test Runner | Assertions | Reporter
-
 
 
 
@@ -675,7 +674,10 @@ Why are environmental variables important?
 </div>
 
 <!--
-An environment variable is made up of a name/value pair, and any number may be created and available for reference at a point in time
+An environment variable is made up of a name/value pair, and any number may be created and available for reference at a point in time. 
+
+
+This is be editing this.
 -->
 
 ---
@@ -729,6 +731,7 @@ USERNAME=dharding
 ### Cons
 
 - Security risk (if you forget to add this file to a gitignore file)
+- Install a module to load it (dotenv)
 
 </div>
 </div></div>
@@ -751,7 +754,7 @@ name: NPM Scripts
 
 These are a convenient way to store and reference common shell commands that you use in your project
 
-<v-click>
+<div>
 
 Command
 
@@ -759,9 +762,9 @@ Command
 ./node_modules/.bin/@wdio 
 ```
 
-</v-click>
+</div>
 
-<v-click>
+<div>
 
 NPM script
 
@@ -784,7 +787,7 @@ npm test
 // in your project so you don't have to use the full path, just the name of the module
 ```
 
-</v-click>
+</div>
 
 ---
 name: NPM Script Exercise
@@ -802,16 +805,12 @@ name: Page Objects
 
 Page Object is a Design Pattern for enhancing test maintenance and reducing code duplication.
 
-<div v-clicks>
+<div>
 
 - A page object is an object-oriented class that serves as an interface to a page/part of a page (section) for your automaton.
-
 - There is a clean separation between test code and page specific code such as locators
-
 - There is a single repository for the services or operations offered by the page rather than having these services scattered throughout the tests.
-
 - Page objects should never make verifications or assertions. Verification should should be in your tests.
-
 - There are other design patterns that can be used like "Screen Play" (look it up)
 
 </div>
@@ -872,7 +871,7 @@ name: Test with Page Object
 
 <br/>
 
-<div v-click>
+<div>
 
 ```js
 // ...
@@ -903,7 +902,7 @@ it("Verify that a user can sign in", function () {
 
 <br/>
 
-<div v-click>
+<div>
 
 ```js
 // ...
@@ -935,3 +934,613 @@ Objective:
   - Create one function/method for logging in
   - Update test to use this new method/function
   - Run your test and ensure that they still work
+
+---
+name: Groups/tags (regression, smoke, etc) 
+---
+# Groups/tags (REGRESSION, smoke, etc) <MarkerProjectStructure />
+
+Using features like groups or tags to create things like a regression or smoke suite that you can easily reference through a command. 
+
+Each test framework implements this in their own way, but we'll use WebdriverIO as the example in this case. 
+
+```bash
+npm run test:regression
+npm run test:smoke
+```
+
+<br/>
+
+```js
+// wdio.conf.js
+exports.config = {
+    // define all tests
+    specs: ['./test/**/*.test.js'],
+    // ...
+    // define specific suites
+    suites: {
+        login: [
+            './test/authentication/login.test.js',
+        ],
+        regression: [
+            // ...
+        ]
+    },
+    // ...
+}
+```
+
+---
+name: Smoke
+---
+# Groups/tags (regression, SMOKE, etc) <MarkerProjectStructure />
+
+In the case of smoke tests, you might want to run multiple specific tests, not just a list of files
+
+```bash
+grep -r -l --include "*.js" "@smoke" | wdio wdio.conf.js
+```
+* Find all test that have the text `@smoke` in their title.
+
+<br/>
+<br/>
+
+```js
+it('Verify that I cam login @smoke'){ ... } 
+it('Verify that the login button is blue') { ... }
+it('Verify that I can make a payment @smoke'){ ... } 
+```
+---
+name: Groups/tags Exercise
+---
+# Groups/tags Exercise <MarkerProjectStructure />
+
+Create a regression suite and create a `test:regression` command for it
+
+1. Edit the `wdio.conf.js` file to include your suite
+2. Create a regression suite and only include the login test file
+3. Edit the `package.json` file to include your script (test:regression)
+4. Run your regression suite using the script in step 3
+
+<br/>
+
+```bash
+wdio wdio.conf.js --suite regression
+```
+* how to reference your suite
+
+---
+name: Custom Assertion and Command
+---
+# Custom Assertions and Commands <MarkerProjectStructure />
+
+There are times when you need to extend your test automation framework to do operations that are very common
+
+These operations are normally around commands and assertions beyond what is built-in
+
+<div v-click>
+
+```js {all|1-5|6-10}
+  waitThenClick: function (element) {
+    element.waitForExist();
+    element.waitForDisplayed();
+    element.click();
+  },
+  verifyTextInPage: function (text) {
+    const pageText = $("body").getText();
+    const position = pageText.search(text);
+    chai.expect(position).to.be.above(0);
+  },
+```
+
+</div>
+
+<!-- The difference between a custom assertion and a command is that the commands are just steps but the assertion have some comparison that's encapsulated 
+
+  clearThenSetValue: function (element, value) {
+    element.waitForDisplayed();
+    element.clearValue();
+    element.setValue(value);
+  },
+
+-->
+
+---
+name: Custom Assertion and Command Exercise
+---
+# Custom Assertions and Commands Exercise <MarkerProjectStructure />
+
+Create a custom command to replace redundant code in your `loginUser` method in your page object
+
+1. Edit the `commands.js` file in the support folder
+2. Create a custom command called `clearThenSetValue` that accepts an element and value
+3. Replace the redundant code in your page object with this new method
+4. Usage `browser.clearThenSetValue(pageElement, 'value')` 
+
+---
+name: Custom Reporter 
+---
+# Reporters (custom, other types) <MarkerProjectStructure />
+
+We can create our own custom reports, by either using the built-in support or parsing data
+
+1. Create reports by either parsing/transforming a default report into anything that we might need. 
+
+2. We also have the option to use another plugin if needs be. 
+
+<div v-click>
+
+- Email
+- Test Case Management (QualityWatcher, Testrail)
+- Communication Channels (Slack, Microsoft Teams)
+- Just about anything that have a webhook integration
+
+</div>
+
+---
+name: Customer Reporter (Slack) 
+---
+# Example: Slack Reporter for WebdriverIO <MarkerProjectStructure />
+
+<div v-click>
+
+<div class="content-center">
+<img border="rounder" class="center" src="https://seetyah.s3.amazonaws.com/Screen%20Shot%202021-06-22%20at%208.57.40%20AM.png" />
+</div>
+
+</div>
+
+<!-- 
+Talk about explanation
+ -->
+
+---
+name: Custom Reporter Skills
+---
+
+# Custom Report Skills
+
+When making custom reporters you pull on different skills
+
+Skills include: 
+- Understanding and working with APIs
+- Understanding and working with Markdown (formatting of results)
+- Using webhooks
+- JavaScript
+---
+name: Custom Reporter Exercise 
+---
+# Customer Reporter Exercise <MarkerProjectStructure />
+
+Create your own custom reporter using the WebdriverIO built-in support
+
+1. Edit the `customReporter.js` file in the `./support/utils/` folder
+2. Uncomment the different handlers and and write an appropriate message to the console
+4. Edit the `wdio.conf.js` file to include the reporter (import is already done for you)
+3. Run your login test and see what happens
+
+---
+name: Test Data
+---
+
+# Test Data - Data retrievers <MarkerProjectStructure />
+
+While testing we might need to use external data for setting up the test or for confirming some data. 
+
+It could be  JSON, API, Database, CSV, Excel, etc ... but we normally have to code this.
+
+<!-- 
+  Look at the login tests, walk them through the excel read and import, talk about the API one
+ -->
+
+---
+name: Test Data - Using API Exercise
+---
+
+# Test Data - Using API Exercise <MarkerProjectStructure />
+
+1. Use the response from `https://tax-by-state.vercel.app/api/get-tax?cost=2000&state=California` to get the tax from an API
+2. Use the response to verify that the application calculate the tax correctly (`https://tax-by-state.vercel.app/`)
+3. Edit the `./tests/dataDriven/externalData.test.js` file to add the missing pieces to make the code work
+
+<br/>
+<br/>
+
+> The `getTaxCalculation` is already interacting with the API, you just need to pass the correct values and get a response
+
+---
+name: Documentation (README.md)
+---
+# Documentation (README.md) <MarkerProjectStructure />
+
+A README is a text file that introduces and explains a project. It contains information that is commonly required to understand what the project is about. 
+
+<div v-click>
+
+Some things to keep in mind when creating a README.md for your test automation
+
+- should be short but detailed
+- how to install and run your automation
+- how to execute groups/tags/suites (if any)
+- how to use different environments
+- Your readme file is written using markdown (markdown is a plain text formatting syntax)
+
+</div>
+
+---
+name: Linting
+---
+# Linting & Code Formatting <MarkerProjectStructure />
+
+Linting helps to prevent some common issues when coding, while code formatting ensure that everyone on the team is using the same style 
+
+Get Example: 
+
+---
+layout: center
+class: text-center
+name: Tips and Tricks
+---
+
+# <CustomHeader> Tips and Tricks for Automation gotchas! </CustomHeader>
+Not all projects require you to use these techniques but knowing them is worth it
+
+---
+name: IFrames
+---
+
+# Tips & Tricks -  IFrame <MarkerTipsAndTricks />
+
+An IFrame (Inline Frame) is an HTML document embedded inside another HTML document on a website
+
+<div v-click>
+
+How do we automate something in an IFrame? 
+- Find out if you need to interact with an iframe (tag - `<iframe />`)
+- Switch to the IFrame (supported by your automation framework)
+- Remember to switch back to parent when you are done (if needed)
+
+[IFrame examples](https://the-internet.herokuapp.com/iframe)
+
+</div>
+
+---
+name: IFrame Exercise
+---
+# IFrame Exercise <MarkerTipsAndTricks />
+
+Switch to the "MIDDLE" iframe and verify the text
+
+Use the existing tests as examples in `tests/tipsAndTricks/iFrames.test.js`
+
+---
+name: Windows/Tabs
+---
+
+# Working with Windows <MarkerTipsAndTricks />
+
+This is referring to a new tab in the same window, which can be confusing
+
+How do we automation something in a new tab? 
+- Similar like iframes, we need to do a switch to the tab we want to interact with
+- Depending on the test framework, there are different methods for switching
+- WebdriverIO gives you the option for using the URL or Title
+
+---
+name: Working with Windows <MarkerTipsAndTricks />
+---
+
+# Working with Windows Exercise
+
+Switch to windows/tabs using the title on the page
+
+Use the existing tests as examples in `tests/tipsAndTricks/windows.test.js`
+
+---
+name: Executing a script
+---
+# Executing a script <MarkerTipsAndTricks />
+
+Any JavaScript that you can execute in the browser, you can from your automation
+
+While this is a very rare case there are times when you need to manipulate a web page from your automation
+- You would use JavaScript to do this
+- An example would be to make a element visible for interaction
+
+<div v-click>
+
+```js
+   // Executing JavaScript with WebdriverIO element
+    browser.execute((refOfElement) => {
+
+      // we are able to manipulate this element using the display property
+      refOfElement.style.display = "block";
+
+    }, actualElement);
+```
+
+</div>
+
+<!-- Dive into chrome dev tools and then the code -->
+
+---
+name: Executing a Script Exercise
+---
+# Executing a Script Exercise <MarkerTipsAndTricks />
+
+Change the `background-color` of the notification to `limegreen`
+
+Use the existing tests as examples in `tests/tipsAndTricks/executingScript.test.js`
+
+> Tip: When verifying that you have changed the color use `browser.getCSSProperty(element)` to get the value <br/> <br/> https://webdriver.io/docs/api/element/getCSSProperty/
+
+---
+name: Multiple elements
+---
+
+# Multiple Elements <MarkerTipsAndTricks />
+
+Working with a list of data is perfect for getting multiple elements
+
+Use Cases: 
+- Checking the number of those elements that are on the page
+- Checking that all items have a name and price
+- Have no way to differentiate items (resort to using position, not ideal but a solution)
+
+---
+name: Multiple Elements Exercise
+---
+# Multiple Elements Exercise <MarkerTipsAndTricks />
+
+Verify that there are 9 lamp cards on the QW Store Homepage
+
+Use the existing tests as examples in `tests/tipsAndTricks/multipleElements.test.js`
+
+
+<!-- 
+    // assert the size of the elements array
+    expect(listOfCardElements).toBeElementsArrayOfSize(9);
+ -->
+
+---
+name: File Upload 
+---
+# File Upload <MarkerTipsAndTricks />
+
+Uploading a file with automation should complex but it's very simple
+
+When you use the mouse to upload a file, you have to interact with a file picker
+
+Automation is very different, instead we are just setting the file path value to the `input` field
+
+<div v-click>
+
+```js
+  const eleFileUploadInput = $("#file-upload");
+
+  eleFileUploadInput.setValue(filePath);
+```
+
+</div>
+
+---
+name: File Upload Exercise
+---
+# File Upload Exercise <MarkerTipsAndTricks />
+
+Verify that you can upload a file successfully from your computer
+
+Use the existing tests as examples in `tests/tipsAndTricks/fileUpload.test.js`
+
+> The assertion should verify the name of the file you uploaded (it could be a partial part of the name)
+
+---
+name: Basic Authentication 
+---
+# Basic Authentication <MarkerTipsAndTricks />
+
+Some websites are gated for security reasons. Example, the FOX team have a gated QA website
+
+The browser presents a popup for you to enter your username and password but there is no way to interact with it
+
+<div v-click>
+
+We can bypass this by adding the username and password to the URL in a specific format
+
+```bash
+http://username:password@example.com/
+http://sharding:superStrongPassword2021@example.com/
+```
+
+* the browser will take this information and authenticate your script accordingly
+
+Example: https://the-internet.herokuapp.com/basic_auth
+
+</div>
+
+---
+name: Basic Authentication Exercise
+---
+
+# Basic Authentication Exercise <MarkerTipsAndTricks />
+
+Verify that you can successfully use basic authentication 
+
+Update the test in `tests/tipsAndTricks/basicAuthentication.test.js`
+
+```js
+ it("Verify that the user can enter gated website", () => {
+    browser.url('https://the-internet.herokuapp.com/basic_auth');
+    const header = $("h3");
+    header.waitForDisplayed();
+    expect(header.getText()).toEqual("Basic Auth");
+  });
+```
+
+<br/>
+<br/>
+
+> Use variables for the username and password
+
+---
+name: Incorporating Different Testing Types
+layout: center
+class: text-center
+---
+# <CustomHeader> Incorporating Different Testing Types </CustomHeader>
+
+Data-Driven Testing | Visual Testing | Cross-Browser Testing
+
+---
+name: Data-Driven Testing 
+---
+# Data-Driven Testing <MarkerOtherTestingTypes />
+
+What is data-driven testing? 
+
+<div>
+
+<v-clicks>
+
+- A way of executing tests dynamically based on data
+- The data indicates what is to be tested and what is validated
+- Does not have hard-coded inputs and assertions in the test script
+
+<img class="object-contain mt-5 h-70 w-full rounded" src="https://seetyah.s3.amazonaws.com/Untitled%20Document.jpg" /> 
+
+</v-clicks>
+
+
+</div>
+
+---
+name: Data-Driven Testing - Pros/Cons
+---
+# Data-Driven Testing <MarkerOtherTestingTypes />
+
+<div class="flex justify-between">
+
+<div>
+
+### Pros
+
+- Changing test script or test data does not affect each other
+- Performing regression on a large set of cases can be a breeze
+- Ultimately increasing test coverage
+
+</div>
+
+<div>
+
+### Cons
+
+- Quality of the test is dependent on the programming skills of the implementer
+- Debugging errors can be hard if the implementer is inexperienced in using the language
+
+</div>
+
+</div>
+
+---
+name: Data-Driven How to
+---
+
+# Data-Driven Testing (How to) <MarkerOtherTestingTypes />
+
+The more you understanding the programing language you are using, the better it is
+
+<div v-click> 
+
+Let's go to the code!
+
+</div>
+
+---
+name: Automated Visual Testing 
+---
+
+# Automated Visual Testing <MarkerOtherTestingTypes />
+
+[What is automated visual testing?](https://applitools.com/blog/visual-testing/) 
+
+<v-clicks>
+
+- It's using software to compare visual elements across various screen combination to find visual bugs
+- Automated visual testing evolved from functional testing (which is a simpler and more effective process)
+- Good to use after unit testing, API testing, and before functional testing
+
+<div class="mt-10">
+
+- [applitools](https://applitools.com) - Cloud base visual tests.
+- [percy.io](percy.io) - Continuous visual reviews for web apps.
+- [Visual Regression Tracker](https://github.com/Visual-Regression-Tracker/Visual-Regression-Tracker) - Open Source selfhosted service for visual regression testing
+
+</div>
+
+</v-clicks>
+
+---
+name: Automated Visual Testing - 2
+---
+
+# Automated Visual Testing <MarkerOtherTestingTypes />
+
+<div class="flex justify-between">
+
+<div>
+
+### Applitools
+
+<img class="object-contain h-60 mt-10" src="https://seetyah.s3.amazonaws.com/Screen%20Shot%202021-06-22%20at%206.23.05%20PM.png" />
+
+
+
+</div>
+
+<div>
+
+### [Percy.io](https://percy.io/62d281ae/qw-store/builds/11009248/changed/618305482?browser=edge&browser_ids=14%2C16%2C17&subcategories=approved&viewLayout=side-by-side&viewMode=new&width=1280&widths=375%2C1280)
+
+<img class="object-contain h-60 mt-10"  src="https://seetyah.s3.amazonaws.com/Screen%20Shot%202021-06-22%20at%206.27.12%20PM.png" />
+
+</div>
+
+</div>
+
+---
+name: Automated Visual Testing (How to)
+---
+
+# Automated Visual Testing (How to) <MarkerOtherTestingTypes />
+
+Automated Visual Testing is supported by most automation frameworks, you ony need to integrate with your current project
+
+<div v-click> 
+
+Let's go to the code!
+
+What do we need: 
+- API Key for whatever service will be using
+- Plugin for the framework we are using
+
+</div>
+
+---
+
+name: Automated Cross-Browser Testing
+---
+
+# Automated Cross-Browser Testing <MarkerOtherTestingTypes />
+
+What is automated cross browser testing?
+
+<v-clicks>
+
+- Using automation to test web application compatibility with any browser (desktop, tablet, mobile)
+
+</v-clicks>
+
+---
+
+
+
