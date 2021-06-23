@@ -457,9 +457,7 @@ Tests are handled by a test runner
 
 <v-click>
 
-<div class="content-center">
-<img border="rounder" class="center" src="https://seetyah.s3.amazonaws.com/test%20runner.jpg" />
-</div>
+<img class="mx-auto h-50 rounded-2xl" src="https://seetyah.s3.amazonaws.com/test%20runner.jpg" />
 
 </v-click>
 
@@ -475,7 +473,7 @@ An assertion is a check to determine if something is true (correct). [Chai](http
 Below are 3 examples of the different types of assertions you can use. Most of us assert or expect
 <br/>
 <br/>
-<img v-click border="rounded" src="https://seetyah.s3.amazonaws.com/Screen_Shot_2021-05-31_at_3.20.48_PM.png">
+<img v-click class="mx-auto h-60 rounded-2xl" src="https://seetyah.s3.amazonaws.com/Screen_Shot_2021-05-31_at_3.20.48_PM.png">
 
 ---
 name: Assertion Examples
@@ -567,9 +565,7 @@ name: Reporting (Spec)
 # Reporter (Spec) <MarkerTestFramework/>
 
 
-<div class="content-center">
-<img border="rounder" class="center" src="https://seetyah.s3.amazonaws.com/Screen%20Shot%202021-06-16%20at%201.55.06%20PM.png" />
-</div>
+<img class="mx-auto h-80 rounded-2xl" src="https://seetyah.s3.amazonaws.com/Screen%20Shot%202021-06-16%20at%201.55.06%20PM.png" />
 
 ---
 name: Reporter (XML)
@@ -611,9 +607,7 @@ name: Reporting (Allure HTML)
 # Reporter (Allure) <MarkerTestFramework/>
 
 
-<div class="content-center">
-<img border="rounder" class="center" src="https://seetyah.s3.amazonaws.com/Screen%20Shot%202021-06-16%20at%202.30.30%20PM.png" />
-</div>
+<img border="rounded" class="mx-auto h-110 rounded-2xl" src="https://seetyah.s3.amazonaws.com/Screen%20Shot%202021-06-16%20at%202.30.30%20PM.png" />
 
 ---
 name: Structured Automation Project
@@ -1084,9 +1078,7 @@ name: Customer Reporter (Slack)
 
 <div v-click>
 
-<div class="content-center">
-<img border="rounder" class="center" src="https://seetyah.s3.amazonaws.com/Screen%20Shot%202021-06-22%20at%208.57.40%20AM.png" />
-</div>
+<img  class="mx-auto rounded-2xl h-110" src="https://seetyah.s3.amazonaws.com/Screen%20Shot%202021-06-22%20at%208.57.40%20AM.png" />
 
 </div>
 
@@ -1406,7 +1398,7 @@ What is data-driven testing?
 - The data indicates what is to be tested and what is validated
 - Does not have hard-coded inputs and assertions in the test script
 
-<img class="object-contain mt-5 h-70 w-full rounded" src="https://seetyah.s3.amazonaws.com/Untitled%20Document.jpg" /> 
+<img class="mx-auto mt-5 h-70 rounded-2xl" src="https://seetyah.s3.amazonaws.com/Untitled%20Document.jpg" /> 
 
 </v-clicks>
 
@@ -1491,7 +1483,7 @@ name: Automated Visual Testing - 2
 
 ### Applitools
 
-<img class="object-contain h-60 mt-10" src="https://seetyah.s3.amazonaws.com/Screen%20Shot%202021-06-22%20at%206.23.05%20PM.png" />
+<img class="mx-auto h-60 mt-10 rounded-2xl" src="https://seetyah.s3.amazonaws.com/Screen%20Shot%202021-06-22%20at%206.23.05%20PM.png" />
 
 
 
@@ -1501,7 +1493,7 @@ name: Automated Visual Testing - 2
 
 ### [Percy.io](https://percy.io/62d281ae/qw-store/builds/11009248/changed/618305482?browser=edge&browser_ids=14%2C16%2C17&subcategories=approved&viewLayout=side-by-side&viewMode=new&width=1280&widths=375%2C1280)
 
-<img class="object-contain h-60 mt-10"  src="https://seetyah.s3.amazonaws.com/Screen%20Shot%202021-06-22%20at%206.27.12%20PM.png" />
+<img class="mx-auto h-60 mt-10 rounded-2xl"  src="https://seetyah.s3.amazonaws.com/Screen%20Shot%202021-06-22%20at%206.27.12%20PM.png" />
 
 </div>
 
@@ -1526,7 +1518,6 @@ What do we need:
 </div>
 
 ---
-
 name: Automated Cross-Browser Testing
 ---
 
@@ -1539,8 +1530,6 @@ What is automated cross browser testing?
 - Using automation to test web application compatibility with any browser (desktop, tablet, mobile)
 
 </v-clicks>
-
----
 
 
 
