@@ -619,10 +619,24 @@ class: text-center
 Some best ways and best practices for structuring your automation project
 
 <!-- You can organize your tests by using different files or test suites. -->
+---
+name: Structured Automation Project Start
+---
+# Structured Automation Project - Clone Repo
+
+If you haven't already, please go ahead and clone this repo, we will be using this project for the rest of the workshop
+
+```sh
+$ git clone https://github.com/dimitriharding/next-level-automation-project
+$ cd next-level-automation-project
+$ npm install
+```
+
+
+
 
 ---
-name: Project Structure
----
+
 # Project Structure
 
 ```md
@@ -739,7 +753,10 @@ name: Environmental Variables Exercise
 1. Go to the root of your project
 2. Create a `.evn` file
 3. Add `NAME` as a variable, and add your name as the `value` 
-4. Run this command and observe what happened (____)
+4. Run this command and observe what happened in the terminal
+```sh
+ENV=prd npm run test:suite authentication
+```
 
 ---
 name: NPM Scripts
@@ -1530,6 +1547,3 @@ What is automated cross browser testing?
 - Using automation to test web application compatibility with any browser (desktop, tablet, mobile)
 
 </v-clicks>
-
-
-
