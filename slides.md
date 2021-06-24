@@ -636,6 +636,7 @@ If you haven't already, please go ahead and clone this repo, we will be using th
 $ git clone https://github.com/dimitriharding/next-level-automation-project
 $ cd next-level-automation-project
 $ npm install
+$ ENV=prd NAME="" npm run register:workshop
 ```
 
 
