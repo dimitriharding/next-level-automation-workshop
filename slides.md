@@ -1,20 +1,26 @@
 ---
 layout: cover
-download: "https://github.com/dimitriharding/next-level-automation-workshop"
+download: https://github.com/dimitriharding/next-level-automation-workshop
 highlighter: shiki
-info: |
+info: >
   ## Next-level Test Automation Workshop
 
-  Pattens and tips for creating a structured UI automation project (JavaScript edition)
+
+  Pattens and tips for creating a structured UI automation project (JavaScript
+  edition)
+
 
   [Dimitri Harding](https://dimitriharding.com/)
 
-  - [Source code](https://github.com/dimitriharding/next-level-automation-workshop)
+
+  - [Source
+  code](https://github.com/dimitriharding/next-level-automation-workshop)
+title: Next-Level Test Automation Workshop
 ---
 
 # Next-Level Test Automation Workshop
 
-Pattens and tips for creating a structured UI automation project (JavaScript edition)
+Patterns and tips for creating a structured UI automation project (JavaScript edition)
 
 <div class="uppercase text-sm tracking-widest">
 Dimitri Harding
@@ -29,7 +35,7 @@ Dimitri Harding
 </div>
 
 <a href="https://github.com/dimitriharding/next-level-automation-workshop" target="_blank" alt="GitHub"
-  class="abs-br m-6 text-xl icon-btn opacity-50 !border-none !hover:text-white">
+  class="text-xl  abs-br m-6 icon-btn opacity-50 !border-none !hover:text-white">
 <carbon-logo-github />
 </a>
 
@@ -87,14 +93,14 @@ name: What are test frameworks made of?
 
 # <CustomHeader> What are test frameworks made of? </CustomHeader>
 
-Hooks | Test Runner | Assertions | Reporter
+Hooks | Test Runner | Assertions | Reporting
+
+<!--
+> In general, a framework is a set of best practices, assumptions, common tools, and libraries that you can use across teams.
 
 
-
-<!-- > In general, a framework is a set of best practices, assumptions, common tools, and libraries that you can use across teams.
-
-
-> Test frameworks provide some of the benefits of increase reusability of code, higher portability, reduce test script maintenance cost and so on. -->
+> Test frameworks provide some of the benefits of increase reusability of code, higher portability, reduce test script maintenance cost and so on.
+-->
 
 ---
 name: Test Frameworks
@@ -713,7 +719,7 @@ API_KEY=zaCELgLim USERNAME=dharding npm run test
 ### Cons
 
 - You have to actively remember all variables
-- easy to makes typo
+- easy to make typo/s
 - long commands
 
 </div>
@@ -729,6 +735,10 @@ API_KEY=zaCELgLim
 USERNAME=dharding
 ```
 
+```js
+require("dotenv").config();
+```
+
 <div v-click>
 
 ### Pros
@@ -742,7 +752,33 @@ USERNAME=dharding
 - Install a module to load it (dotenv)
 
 </div>
-</div></div>
+</div>
+
+</div>
+
+---
+name: Environmental Variables - 2 
+---
+
+# Environmental Variables Access <MarkerProjectStructure />
+
+In node you use `process.env.[name-of-variable]` to access them
+
+```js
+// Getting the value of an environmental variable
+const company = process.env.COMPANY
+```
+
+```js
+// Setting the value of an environmental variable
+process.env.COMPANY = "QualityWorks"
+```
+
+```js
+// To see all environmental variables on the current system + the ones you defined
+console.log(process.env); 
+```
+
 
 ---
 name: Environmental Variables Exercise
@@ -751,11 +787,14 @@ name: Environmental Variables Exercise
 # Environmental Variables Exercise <MarkerProjectStructure />
 
 1. Go to the root of your project
-2. Create a `.evn` file
+2. Create a `.env` file
 3. Add `NAME` as a variable, and add your name as the `value` 
+```sh
+[variable]=[value]
+```
 4. Run this command and observe what happened in the terminal
 ```sh
-ENV=prd npm run test:suite authentication
+ENV=prd ./node_modules/.bin/wdio ./wdio.conf.js --suite authentication
 ```
 
 ---
@@ -789,16 +828,28 @@ npm test
 "script": {
    "test": "@wdio",
    "test:smoke": "",
+   [scriptname]:[command to execute]
   }
-  ....
-  Specify window size, browser
 }
 ....
-// npm scripts understand that you want to access wdio binary 
-// in your project so you don't have to use the full path, just the name of the module
 ```
 
 </div>
+
+<!-- npm scripts understand that you want to access wdio binary in your project so you don't have to use the full path, just the name of the module
+ -->
+
+---
+name: NPM Script - 2
+---
+
+# NPM Script
+
+| Symbol | Description |Usage|
+| ------ | ---------- | ---- |
+| - -     | anything after this should be appended directly to the command itself  | `npm run test -- --spec` |
+| &&     | run commands in series, but stops running if the former command failed | `npm run test && npm run report` |
+| ;      | run commands in series even if one failed                              | `npm run test; npm run report` |
 
 ---
 name: NPM Script Exercise
@@ -806,8 +857,15 @@ name: NPM Script Exercise
 # NPM Script Exercise <MarkerProjectStructure />
 
 1. Go to `package.json`
-2. Add your own script using the save command that you created before
-3. Run your npm script and see what happens
+2. Add your own script using the same command that you used before
+```sh
+./node_modules/.bin/wdio ./wdio.conf.js --suite authentication
+```
+```js
+[scriptname]:[command]
+```
+3. Ensure that the script name is descriptive so that it's easy to remember and use `test:suite:auth`
+4. Run your npm script and see what happens
 
 ---
 name: Page Objects
@@ -821,7 +879,7 @@ Page Object is a Design Pattern for enhancing test maintenance and reducing code
 - A page object is an object-oriented class that serves as an interface to a page/part of a page (section) for your automaton.
 - There is a clean separation between test code and page specific code such as locators
 - There is a single repository for the services or operations offered by the page rather than having these services scattered throughout the tests.
-- Page objects should never make verifications or assertions. Verification should should be in your tests.
+- Page objects should never make verifications or assertions. Verification should be in your tests.
 - There are other design patterns that can be used like "Screen Play" (look it up)
 
 </div>
@@ -942,7 +1000,7 @@ name: Page Object Exercise
 Improve the current Login page object `login.page.js` 
 
 Objective: 
-  - Create one function/method for logging in
+  - Create one function/method for logging in the user `loginUser`
   - Update test to use this new method/function
   - Run your test and ensure that they still work
 
@@ -1011,18 +1069,20 @@ Create a regression suite and create a `test:regression` command for it
 1. Edit the `wdio.conf.js` file to include your suite
 2. Create a regression suite and only include the login test file
 3. Edit the `package.json` file to include your script (test:regression)
+```bash
+# how to reference your suite
+wdio wdio.conf.js --suite regression 
+```
 4. Run your regression suite using the script in step 3
 
 <br/>
 
-```bash
-wdio wdio.conf.js --suite regression
-```
-* how to reference your suite
+
 
 ---
 name: Custom Assertion and Command
 ---
+
 # Custom Assertions and Commands <MarkerProjectStructure />
 
 There are times when you need to extend your test automation framework to do operations that are very common
@@ -1046,14 +1106,14 @@ These operations are normally around commands and assertions beyond what is buil
 
 </div>
 
-<!-- The difference between a custom assertion and a command is that the commands are just steps but the assertion have some comparison that's encapsulated 
+<!--
+The difference between a custom assertion and a command is that the commands are just steps but the assertion have some comparison that's encapsulated 
 
   clearThenSetValue: function (element, value) {
     element.waitForDisplayed();
     element.clearValue();
     element.setValue(value);
   },
-
 -->
 
 ---
@@ -1071,7 +1131,7 @@ Create a custom command to replace redundant code in your `loginUser` method in 
 ---
 name: Custom Reporter 
 ---
-# Reporters (custom, other types) <MarkerProjectStructure />
+# Reporting (custom, other types) <MarkerProjectStructure />
 
 We can create our own custom reports, by either using the built-in support or parsing data
 
@@ -1089,25 +1149,28 @@ We can create our own custom reports, by either using the built-in support or pa
 </div>
 
 ---
-name: Customer Reporter (Slack) 
+name: Custom Reporter (Slack) 
 ---
 # Example: Slack Reporter for WebdriverIO <MarkerProjectStructure />
 
 <div v-click>
 
-<img  class="mx-auto rounded-2xl h-110" src="https://seetyah.s3.amazonaws.com/Screen%20Shot%202021-06-22%20at%208.57.40%20AM.png" />
+<img  class="mx-auto rounded-2xl h-100" src="https://seetyah.s3.amazonaws.com/Screen%20Shot%202021-06-22%20at%208.57.40%20AM.png" />
+
+<FileRef link="https://github1s.com/dimitriharding/next-level-automation-project/blob/main/support/utils/slackReporter.js" />
 
 </div>
 
+
 <!-- 
-Talk about explanation
+Talk about explanation 
  -->
 
 ---
 name: Custom Reporter Skills
 ---
 
-# Custom Report Skills
+# Custom Reporter Skills
 
 When making custom reporters you pull on different skills
 
@@ -1119,14 +1182,21 @@ Skills include:
 ---
 name: Custom Reporter Exercise 
 ---
-# Customer Reporter Exercise <MarkerProjectStructure />
+# Custom Reporter Exercise <MarkerProjectStructure />
 
 Create your own custom reporter using the WebdriverIO built-in support
 
-1. Edit the `customReporter.js` file in the `./support/utils/` folder
-2. Uncomment the different handlers and and write an appropriate message to the console
-4. Edit the `wdio.conf.js` file to include the reporter (import is already done for you)
-3. Run your login test and see what happens
+1. Edit the `wdio.conf.js` file to include the reporter
+      - Uncomment line number 7, this is where the custom report is required
+      - Uncomment the addition of the custom reporter starting from line 128
+2. Edit the `customReporter.js` file in the `./support/utils/` folder
+3. Uncomment the different handlers and and write an appropriate message to the console
+     - Add the `onTestFail` handler and any other that you think is relevant
+     - `this.write('some text')` is how to print to the console from the custom report
+4. Run your login test and see what happens
+5. Make your test fail and see what happens
+
+<!-- This exercise is more than 5 minutes -->
 
 ---
 name: Test Data
@@ -1157,6 +1227,10 @@ name: Test Data - Using API Exercise
 
 > The `getTaxCalculation` is already interacting with the API, you just need to pass the correct values and get a response
 
+```js
+const { getTaxCalculation } = require("../../support/utils/dataHandler");
+```
+
 ---
 name: Documentation (README.md)
 ---
@@ -1174,6 +1248,12 @@ Some things to keep in mind when creating a README.md for your test automation
 - how to use different environments
 - Your readme file is written using markdown (markdown is a plain text formatting syntax)
 
+<br/>
+<br/>
+
+- [readme.so](https://readme.so/) -The easiest way to create a README
+- [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+
 </div>
 
 ---
@@ -1183,7 +1263,51 @@ name: Linting
 
 Linting helps to prevent some common issues when coding, while code formatting ensure that everyone on the team is using the same style 
 
-Get Example: 
+
+Having a standard code formatting rule is important when working with multiple persons on your team. 
+
+<div v-click>
+
+We can easily configure ESlint in our project:
+
+1. `npm install eslint --save-dev`
+2. `npx eslint --init` # select all relevant option to your project
+3. Install the Eslint extension for VScode so you can get inline errors
+4. Create a `.vscode/settings.json` file in your project
+5. Tell Eslint to fix code on auto save
+```json
+"editor.codeActionsOnSave": {
+  "source.fixAll.eslint": true
+},
+"eslint.validate": ["javascript"]
+```
+
+</div>
+
+---
+name: Linting - 2
+---
+# Linting - Customizing ESLint Configuration <MarkerProjectStructure />
+
+You can specify your own rule in the `rules` object of your eslint config
+
+- `error` - produces a red underline
+- `warn` - will produce a yellow underline
+- `off` - will not display anything.
+
+<br/>
+<br/>
+
+<div v-click>
+
+```json
+"rules" : {
+  "no-console": "off"
+}
+// This removes the error messages from your console.log in your project
+```
+
+</div>
 
 ---
 layout: center
@@ -1204,7 +1328,7 @@ An IFrame (Inline Frame) is an HTML document embedded inside another HTML docume
 
 <div v-click>
 
-How do we automate something in an IFrame? 
+How do we interact with an element in an IFrame? 
 - Find out if you need to interact with an iframe (tag - `<iframe />`)
 - Switch to the IFrame (supported by your automation framework)
 - Remember to switch back to parent when you are done (if needed)
@@ -1218,7 +1342,11 @@ name: IFrame Exercise
 ---
 # IFrame Exercise <MarkerTipsAndTricks />
 
-Switch to the "MIDDLE" iframe and verify the text
+In this exercise you will be switching to an iframe and verifying the text within that frame
+
+1. Go to https://the-internet.herokuapp.com/nested_frames
+2. Switch to the "MIDDLE" iframe 
+3. Verify that the "MIDDLE" text is in that frame
 
 Use the existing tests as examples in `tests/tipsAndTricks/iFrames.test.js`
 
@@ -1230,18 +1358,22 @@ name: Windows/Tabs
 
 This is referring to a new tab in the same window, which can be confusing
 
-How do we automation something in a new tab? 
+How do we interact with an element in a new tab? 
 - Similar like iframes, we need to do a switch to the tab we want to interact with
 - Depending on the test framework, there are different methods for switching
 - WebdriverIO gives you the option for using the URL or Title
 
 ---
-name: Working with Windows <MarkerTipsAndTricks />
+name: Working with Windows 
 ---
 
-# Working with Windows Exercise
+# Working with Windows Exercise <MarkerTipsAndTricks />
 
-Switch to windows/tabs using the title on the page
+In this exercise you will be switching to a different tab using the page title
+
+1. Go to https://the-internet.herokuapp.com/windows
+2. Switch to windows/tabs using the title on the page
+3. Verify that you are on the correct page after switching
 
 Use the existing tests as examples in `tests/tipsAndTricks/windows.test.js`
 
@@ -1277,7 +1409,12 @@ name: Executing a Script Exercise
 ---
 # Executing a Script Exercise <MarkerTipsAndTricks />
 
-Change the `background-color` of the notification to `limegreen`
+In this exercise we will be changing the color of the notification to limegreen
+
+
+1. Change line 21 to use `background-color` instead of display 
+2. Assign the value `limegreen` to the background-color property
+3. Verify that the color of the notification colored in 26, using the `getCSSProperty`
 
 Use the existing tests as examples in `tests/tipsAndTricks/executingScript.test.js`
 
@@ -1316,7 +1453,7 @@ name: File Upload
 ---
 # File Upload <MarkerTipsAndTricks />
 
-Uploading a file with automation should complex but it's very simple
+We would think uploading a file with automation is complex but it's very simple
 
 When you use the mouse to upload a file, you have to interact with a file picker
 
@@ -1460,7 +1597,7 @@ The more you understanding the programing language you are using, the better it 
 
 <div v-click> 
 
-Let's go to the code!
+Let's go to the code!  `./tests/dataDriven/calculator.test.js`
 
 </div>
 
@@ -1498,7 +1635,7 @@ name: Automated Visual Testing - 2
 
 <div>
 
-### Applitools
+### [Applitools](https://eyes.applitools.com/app/test-results/00000251777856998423/?accountId=dshV0SfFtUK4VWxePvzsnw~~)
 
 <img class="mx-auto h-60 mt-10 rounded-2xl" src="https://seetyah.s3.amazonaws.com/Screen%20Shot%202021-06-22%20at%206.23.05%20PM.png" />
 
@@ -1528,7 +1665,7 @@ Automated Visual Testing is supported by most automation frameworks, you ony nee
 
 Let's go to the code!
 
-What do we need: 
+What you need: 
 - API Key for whatever service will be using
 - Plugin for the framework we are using
 
@@ -1538,12 +1675,71 @@ What do we need:
 name: Automated Cross-Browser Testing
 ---
 
-# Automated Cross-Browser Testing <MarkerOtherTestingTypes />
+# Automated Cross Browser Testing <MarkerOtherTestingTypes />
 
-What is automated cross browser testing?
+Cross Browser testing is compatibility testing.
 
 <v-clicks>
 
-- Using automation to test web application compatibility with any browser (desktop, tablet, mobile)
+- Using automation to test web application compatibility with any browser (Chrome, Firefox, Chrome, Edge, Safari) on any platform (macOS, Windows, iOS, Android )
+- To properly perform cross-browser testing, it's good to align with the business objectives
+- List of features to test, what browsers/versions/platforms to test on in order to have the right coverage
+- Areas that can be tested across browsers
+    - Base functionality
+    - Design
+    - Accessibility
+    - Responsiveness 
 
 </v-clicks>
+
+---
+name: Automated Cross-Browser Testing - 2
+---
+
+# Cross Browser Testing
+
+Cross browser testing is supported by most automation frameworks, but they are not all the same.
+
+- Cypress
+    - Supports chromium browsers
+- WebdriverIO
+    - Supports all browsers (Selenium server)
+    - Supports native mobile apps (Appium server)
+
+<div v-click> 
+
+Let's go to the code!
+
+</div> 
+
+---
+name: Recap
+---
+
+# Recap
+
+<div >
+
+- Test Frameworks are made of Hooks, Tests/Test Runner, Assertions, and Reporting
+- Your automation project can easily scale with structure
+    - using environmental variables
+    - page objects
+    - npm scripts
+    - having proper documentation in the project
+    - atomic tests
+- Most things can be automated, but doesn't mean you should do it all
+- Incorporating different testing types can increase coverage
+    - Visual
+    - Data-driven
+    - Cross Browser
+
+</div>
+
+---
+layout: center
+class: 'text-center pb-5 :'
+---
+
+# Thank You!
+
+Slides can be found at: [SPA](https://next-level-automation-workshop.vercel.app/)

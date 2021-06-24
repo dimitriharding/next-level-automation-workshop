@@ -8,7 +8,8 @@
   "dependencies": {
     "@slidev/cli": "^0.21.0",
     "@slidev/theme-default": "^0.19.1",
-    "monaco-editor": "^0.24.0"
+    "monaco-editor": "^0.24.0",
+    "vue-confetti": "^2.2.1"
   },
   "name": "advance-test-automation",
   "devDependencies": {
