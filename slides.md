@@ -52,7 +52,7 @@ layout: 'intro'
 
 - 👨🏽‍💻 I'm a Tester by Profession, but a marker by Passion
 - 🏢 Lead QA Consultant at **QualityWorks** in 🇯🇲.
-- ✨ What I do daily: **Cook**, **Eat**, **Work**, **Code**, **Listen Music**, **Hack on Something**, **Sleep**
+- ✨ Daily activities: **Cook**, **Eat**, **Work**, **Code**, **Listen Music**, **Hack on Something**, **Sleep**
 - 🎭 Hobbies: **Photography**, **Creating something (physically or virtually)**
 </div>
 
@@ -65,7 +65,7 @@ layout: 'intro'
   <div><a href="https://antfu.me" target="_blank">dimitriharding.com</a></div>
 </div>
 
-<img src="https://dimitriharding.com/static/images/dimitri@2x.jpg" class="rounded-full w-40 abs-tr mt-16 mr-12"/>
+<img src="https://ca.slack-edge.com/T0CA1SGCU-U0CA8MY8N-53b022d8447e-512" class="rounded-full w-40 abs-tr mt-16 mr-12"/>
 
 
 ---
@@ -1696,8 +1696,8 @@ Cross Browser testing is compatibility testing.
 name: Automated Cross-Browser Testing - 2
 ---
 
-# Cross Browser Testing
-
+# Cross Browser Testing <MarkerOtherTestingTypes />
+ 
 Cross browser testing is supported by most automation frameworks, but they are not all the same.
 
 - Cypress
@@ -1743,3 +1743,5 @@ class: 'text-center pb-5 :'
 # Thank You!
 
 Slides can be found at: [SPA](https://next-level-automation-workshop.vercel.app/)
+
+
