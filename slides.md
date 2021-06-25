@@ -196,7 +196,7 @@ After
 - Clearing browser cookies
 - Taking a screenshot if there was an error
 - Generating a report
-- or post-action you would want to person after your tests are executed
+- or post-action you would want to perform after your tests are executed
 
 </div>
 
@@ -628,6 +628,7 @@ Some best ways and best practices for structuring your automation project
 ---
 name: Structured Automation Project Start
 ---
+
 # Structured Automation Project - Clone Repo
 
 If you haven't already, please go ahead and clone this repo, we will be using this project for the rest of the workshop
@@ -639,8 +640,11 @@ $ npm install
 $ ENV=prd NAME="" npm run register:workshop
 ```
 
+<!--
+https://next-level-automation-workshop.vercel.app/22
 
-
+This is the URL for the slide where they can get the info
+-->
 
 ---
 
@@ -1744,5 +1748,3 @@ class: 'text-center pb-5 :'
 # Thank You!
 
 Slides can be found at: [SPA](https://next-level-automation-workshop.vercel.app/)
-
-
