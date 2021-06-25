@@ -1135,7 +1135,7 @@ Create a custom command to replace redundant code in your `loginUser` method in 
 
 1. Edit the `commands.js` file in the support folder
 2. Create a custom command called `clearThenSetValue` that accepts an element and value
-3. Replace the redundant code in your page object with this new method
+3. Replace the redundant code in your login page object with this new method `(./pages/login.page.js)`
 4. Usage `browser.clearThenSetValue(pageElement, 'value')` 
 
 ---
