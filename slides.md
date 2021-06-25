@@ -30,7 +30,7 @@ Dimitri Harding
   <img src="https://seetyah.s3.amazonaws.com/QualityWorks-Logo-Symbol-1.jpg" class="h-8 rounded-full">
   <div class="ml-3 flex flex-col text-left">
     <div><b>QualityWorks</b> Automation Workshop</div>
-    <div class="text-sm opacity-50">Apr. 25th, 2021</div>
+    <div class="text-sm opacity-50">Jun. 25th, 2021</div>
   </div>
 </div>
 
@@ -805,6 +805,7 @@ ENV=prd ./node_modules/.bin/wdio ./wdio.conf.js --suite authentication
 ---
 name: NPM Scripts
 ---
+
 # NPM Scripts <MarkerProjectStructure />
 
 These are a convenient way to store and reference common shell commands that you use in your project
@@ -841,8 +842,9 @@ npm test
 
 </div>
 
-<!-- npm scripts understand that you want to access wdio binary in your project so you don't have to use the full path, just the name of the module
- -->
+<!--
+An npm script is a convenient way to bundle common shell commands for your project. They are typically commands, or a string of commands, which would normally be entered at the command line in order to do something with your application.
+-->
 
 ---
 name: NPM Script - 2
@@ -1002,12 +1004,15 @@ name: Page Object Exercise
 
 # Page Object Exercise <MarkerProjectStructure />
 
-Improve the current Login page object `login.page.js` 
+Improve the current Login page object `./pages/login.page.js` 
 
 Objective: 
   - Create one function/method for logging in the user `loginUser`
-  - Update test to use this new method/function
+  - Update test to use this new method/function `./tests/authentication/login.test.js`
   - Run your test and ensure that they still work
+  ```bash
+  ENV=prd npm run test:spec ./tests/authentication/login.test.js
+  ```
 
 ---
 name: Groups/tags (regression, smoke, etc) 
@@ -1096,7 +1101,7 @@ These operations are normally around commands and assertions beyond what is buil
 
 <div v-click>
 
-```js {all|1-5|6-10}
+```js
   waitThenClick: function (element) {
     element.waitForExist();
     element.waitForDisplayed();
